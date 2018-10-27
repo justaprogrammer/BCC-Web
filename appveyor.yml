@@ -21,6 +21,7 @@ deploy:
     branch: master
     appveyor_repo_tag: true
 - provider: GitHub
+  tag: v$(GitVersion_SemVer)
   release: BCC-Core v$(GitVersion_SemVer)
   description: 'BCC-Core v$(GitVersion_SemVer)'
   auth_token:
