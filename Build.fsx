@@ -45,7 +45,7 @@ Target.create "Build" (fun _ ->
 )
 
 Target.create "Test" (fun _ ->
-    List.allPairs ["BCC.Core.Tests" ; "BCC.Core.IntegrationTests"] ["net471" ; "netcoreapp2.1"]
+    List.allPairs ["BCC.Core.Tests"] ["net471" ; "netcoreapp2.1"]
     |> Seq.iter (fun (proj, framework) -> 
             let projectPath = sprintf "src\\%s\\%s.csproj" proj proj
             let reportFile = sprintf "%s-%s.results.trx" proj framework
@@ -87,7 +87,7 @@ Target.create "Package" (fun _ ->
 )
 
 Target.create "Coverage" (fun _ ->
-    List.allPairs ["BCC.Core.Tests" ; "BCC.Core.IntegrationTests"] ["net471" ; "netcoreapp2.1"]
+    List.allPairs ["BCC.Core.Tests"] ["net471" ; "netcoreapp2.1"]
     |> Seq.iter (fun (proj, framework) -> 
             let dllPath = sprintf "src\\%s\\bin\\Release\\%s\\%s.dll" proj framework proj
             let projectPath = sprintf "src\\%s\\%s.csproj" proj proj
