@@ -59,15 +59,5 @@ namespace BCC.Core.Tests {
                 resourceCulture = value;
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] private_key {
-            get {
-                object obj = ResourceManager.GetObject("private_key", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
     }
 }
