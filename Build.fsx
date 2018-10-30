@@ -114,13 +114,13 @@ Target.create "DeployGitHub" (fun _ ->
     if(gitHubToken.IsNone) then
         Trace.traceError "GITHUB_TOKEN is not defined"
     else
-
         let (gitOwner, gitName) =
             AppVeyor.Environment.RepoName.Split('/')
             |> Array.pairwise
             |> Array.head
 
         let repoTagName = AppVeyor.Environment.RepoTagName
+        let projectName = AppVeyor.Environment.ProjectName
 
         GitHub.createClientWithToken gitHubToken.Value
         |> (fun clientAsync -> 
@@ -128,7 +128,7 @@ Target.create "DeployGitHub" (fun _ ->
                 let! client = clientAsync
                 let releaseClient = client.Repository.Release
                 
-                let! releease = async {
+                let! release = async {
                     let! exc = Async.Catch(async {
                         let! str = Async.AwaitTask (releaseClient.Get(gitOwner, gitName, repoTagName))
                         return str })
@@ -138,14 +138,14 @@ Target.create "DeployGitHub" (fun _ ->
                    | Choice2Of2 _ -> return None
                 }
 
-                match releease with 
-                | Some _ -> Trace.traceErrorfn "Release at %s already exists" AppVeyor.Environment.RepoTagName
+                match release with 
+                | Some release -> Trace.traceErrorfn "Release '%s' @ '%s' already exists" release.Name repoTagName
                 | _ ->
                     let isPrerelease = not(String.isNullOrWhiteSpace gitVersion.PreReleaseTag)
-                    let releaseName = sprintf "%s - v%s" AppVeyor.Environment.ProjectName gitVersion.SemVer
+                    let releaseName = sprintf "%s - v%s" projectName gitVersion.SemVer
                     let releaseBody = sprintf "## %s" releaseName
 
-                    let newRelease = new Octokit.NewRelease(AppVeyor.Environment.RepoTagName);
+                    let newRelease = new Octokit.NewRelease(repoTagName);
                     newRelease.Name <- releaseName
                     newRelease.Body <- releaseBody
                     newRelease.Draft <- true
@@ -168,7 +168,7 @@ Target.create "DeployGitHub" (fun _ ->
                     |> GitHub.publishDraft
                     |> Async.RunSynchronously
 
-                    Trace.traceImportantfn "GitHub Release: %s" releaseName
+                    Trace.traceImportantfn "Created Release: '%s' @ '%s'" releaseName repoTagName
             }
         )
         |> Async.Catch
@@ -177,7 +177,16 @@ Target.create "DeployGitHub" (fun _ ->
 )
 
 Target.create "DeployNuGet" (fun _ -> 
-    ()
+    let nugetApiKey = Environment.environVarOrNone("NUGET_API_KEY")
+    if(nugetApiKey.IsNone) then
+        Trace.traceError "NUGET_API_KEY is not defined"
+    else
+        NuGet.NuGetPublish (fun p -> {p with
+                                        AccessKey = nugetApiKey.Value
+                                        Project = "BCC.Core"
+                                        Version = gitVersion.NuGetVersionV2
+                                        WorkingDir = "nuget"
+                                     })
 )
 
 Target.create "DeployChocolatey" (fun _ -> 
