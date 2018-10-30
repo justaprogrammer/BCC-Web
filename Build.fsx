@@ -115,17 +115,52 @@ Target.create "DeployGitHub" (fun _ ->
     let gitHubToken = Environment.environVarOrNone("GITHUB_TOKEN")
     if(gitHubToken.IsNone) then
         Trace.traceError "GITHUB_TOKEN is not defined"
-    else        
+    else
         let (gitOwner, gitName) =
             AppVeyor.Environment.RepoName.Split('/')
             |> Array.pairwise
             |> Array.head
 
-        let isPrerelease = not(String.isNullOrWhiteSpace gitVersion.PreReleaseTag)
-        let releaseName = sprintf "%s - %s" AppVeyor.Environment.ProjectName gitVersion.SemVer
-        let releaseBody = sprintf "## %s" releaseName
 
-        let files = !! "nuget/*.nupkg"
+        GitHub.createClientWithToken gitHubToken.Value
+        |> (fun clientAsync -> 
+            async {
+                let! client = clientAsync
+                let releaseClient = client.Repository.Release
+                let! release = releaseClient.Get(gitOwner, gitName, AppVeyor.Environment.RepoTagName) |> Async.AwaitTask
+                if release <> null then
+                    Trace.traceErrorfn "Release at %s already exists" AppVeyor.Environment.RepoTagName
+                else
+                    let isPrerelease = not(String.isNullOrWhiteSpace gitVersion.PreReleaseTag)
+                    let releaseName = sprintf "%s - v%s" AppVeyor.Environment.ProjectName gitVersion.SemVer
+                    let releaseBody = sprintf "## %s" releaseName
+
+                    let newRelease = new Octokit.NewRelease(AppVeyor.Environment.RepoTagName);
+                    newRelease.Name <- releaseName
+                    newRelease.Body <- releaseBody
+                    newRelease.Draft <- true
+                    newRelease.Prerelease <- isPrerelease
+
+                    let! release = releaseClient.Create(gitOwner, gitName, newRelease) |> Async.AwaitTask
+                
+                    let release : GitHub.Release = {
+                        Client = client;
+                        Owner = gitOwner;
+                        RepoName = gitName;
+                        Release = release
+                    }
+            
+                    let files = !! "nuget/*.nupkg"
+
+                    release
+                    |> async.Return
+                    |> GitHub.uploadFiles files
+                    |> GitHub.publishDraft
+                    |> Async.RunSynchronously
+            }
+        )
+        |> Async.RunSynchronously
+
 
         GitHub.createClientWithToken gitHubToken.Value
         |> (fun clientAsync -> 
@@ -138,7 +173,7 @@ Target.create "DeployGitHub" (fun _ ->
                 newRelease.Draft <- true
                 newRelease.Prerelease <- isPrerelease
 
-                let! release = releaseClient.Create(gitOwner, gitName, newRelease) |> Async.AwaitTask;
+                let! release = releaseClient.Create(gitOwner, gitName, newRelease) |> Async.AwaitTask
                 
                 let release : GitHub.Release = {
                     Client = client;
@@ -150,9 +185,6 @@ Target.create "DeployGitHub" (fun _ ->
                 return release
             }
         )
-        |> GitHub.uploadFiles files
-        |> GitHub.publishDraft
-        |> Async.RunSynchronously
 )
 
 Target.create "DeployNuGet" (fun _ -> 
