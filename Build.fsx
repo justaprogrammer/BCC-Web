@@ -72,11 +72,6 @@ Target.create "Test" (fun _ ->
 )
 
 Target.create "Package" (fun _ ->
-    Shell.mkdir "nuget"
-    
-    !! "Package.nuspec"
-    |> Shell.copy "nuget"
-
     Shell.copyRecursive "src/BCC.Core/bin/Release" "nuget/lib" false
     |> ignore
 
@@ -195,19 +190,6 @@ Target.create "DeployNuGet" (fun _ ->
             Trace.traceException ex
 )
 
-Target.create "DeployChocolatey" (fun _ -> 
-    let chocoApiKey = Environment.environVarOrNone("CHOCO_API_KEY")
-    if (chocoApiKey.IsNone) then
-        Trace.traceError "CHOCO_API_KEY is not defined"
-    else
-        try
-            !! "nuget/*.nupkg"
-            |> Seq.iter (Choco.push (fun p -> { p with ApiKey = chocoApiKey.Value }))
-        with ex ->
-            Trace.traceError "Unable to create Chocolatey Package"
-            Trace.traceException ex
-)
-
 Target.create "Default" (fun _ -> 
     ()
 )
@@ -223,7 +205,6 @@ let shouldDeploy = isAppveyor && AppVeyor.Environment.RepoTag
 
 "Package" =?> ("DeployGitHub", (shouldDeploy)) ==> "Default"
 "Package" =?> ("DeployNuGet", (shouldDeploy)) ==> "Default"
-"Package" =?> ("DeployChocolatey", (shouldDeploy)) ==> "Default"
 
 // start build
 Target.runOrDefault "Default"

@@ -14,7 +14,6 @@ group FakeBuild
   nuget Fake.IO.FileSystem
   nuget Fake.Tools.GitVersion
   nuget Fake.Api.GitHub
-  nuget Fake.Windows.Chocolatey
   groupref FakeBuildResources
 
 group FakeBuildResources
