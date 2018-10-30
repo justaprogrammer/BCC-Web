@@ -202,7 +202,7 @@ Target.create "DeployChocolatey" (fun _ ->
     else
         try
             !! "nuget/*.nupkg"
-            |> Seq.iter (Choco.push (fun p -> { p with ApiKey = chocoApiKey }))
+            |> Seq.iter (Choco.push (fun p -> { p with ApiKey = chocoApiKey.Value }))
         with ex ->
             Trace.traceError "Unable to create Chocolatey Package"
             Trace.traceException ex
