@@ -9,7 +9,6 @@ open Fake.DotNet.NuGet
 open Fake.Core
 open Fake.Tools
 open Fake.Api
-open Fake.Windows
 
 BuildServer.install [
     AppVeyor.Installer
