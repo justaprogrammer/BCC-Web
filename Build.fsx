@@ -9,6 +9,7 @@ open Fake.DotNet.NuGet
 open Fake.Core
 open Fake.Tools
 open Fake.Api
+open Fake.Windows
 
 BuildServer.install [
     AppVeyor.Installer
@@ -178,7 +179,7 @@ Target.create "DeployGitHub" (fun _ ->
 
 Target.create "DeployNuGet" (fun _ -> 
     let nugetApiKey = Environment.environVarOrNone("NUGET_API_KEY")
-    if(nugetApiKey.IsNone) then
+    if (nugetApiKey.IsNone) then
         Trace.traceError "NUGET_API_KEY is not defined"
     else
         try
@@ -195,7 +196,16 @@ Target.create "DeployNuGet" (fun _ ->
 )
 
 Target.create "DeployChocolatey" (fun _ -> 
-    ()
+    let chocoApiKey = Environment.environVarOrNone("CHOCO_API_KEY")
+    if (chocoApiKey.IsNone) then
+        Trace.traceError "CHOCO_API_KEY is not defined"
+    else
+        try
+            !! "nuget/*.nupkg"
+            |> Seq.iter (Choco.push (fun p -> { p with ApiKey = chocoApiKey }))
+        with ex ->
+            Trace.traceError "Unable to create Chocolatey Package"
+            Trace.traceException ex
 )
 
 Target.create "Default" (fun _ -> 
