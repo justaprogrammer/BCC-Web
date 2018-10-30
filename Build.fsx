@@ -115,11 +115,13 @@ Target.create "DeployGitHub" (fun _ ->
     if(gitHubToken.IsNone) then
         Trace.traceError "GITHUB_TOKEN is not defined"
     else
+
         let (gitOwner, gitName) =
             AppVeyor.Environment.RepoName.Split('/')
             |> Array.pairwise
             |> Array.head
 
+        let repoTagName = AppVeyor.Environment.RepoTagName
 
         GitHub.createClientWithToken gitHubToken.Value
         |> (fun clientAsync -> 
@@ -127,15 +129,19 @@ Target.create "DeployGitHub" (fun _ ->
                 let! client = clientAsync
                 let releaseClient = client.Repository.Release
                 
-                let! release =
-                    try
-                        releaseClient.Get(gitOwner, gitName, AppVeyor.Environment.RepoTagName) |> Async.AwaitTask
-                    with
-                    | :? NotFoundException as ex -> async.Return null
+                let! releease = async {
+                    let! exc = Async.Catch(async {
+                        let! str = Async.AwaitTask (releaseClient.Get(gitOwner, gitName, repoTagName))
+                        return str })
 
-                if release <> null then
-                    Trace.traceErrorfn "Release at %s already exists" AppVeyor.Environment.RepoTagName
-                else
+                   match exc with      
+                   | Choice1Of2 r -> return Some r
+                   | Choice2Of2 _ -> return None
+                }
+
+                match releease with 
+                | Some _ -> Trace.traceErrorfn "Release at %s already exists" AppVeyor.Environment.RepoTagName
+                | _ ->
                     let isPrerelease = not(String.isNullOrWhiteSpace gitVersion.PreReleaseTag)
                     let releaseName = sprintf "%s - v%s" AppVeyor.Environment.ProjectName gitVersion.SemVer
                     let releaseBody = sprintf "## %s" releaseName
@@ -186,8 +192,7 @@ open Fake.Core.TargetOperators
 "Build" ==> "Test" ==> "Default"
 "Build" ==> "Coverage" ==> "Default"
 
-//let shouldDeploy = isAppveyor && AppVeyor.Environment.RepoTag
-let shouldDeploy = true
+let shouldDeploy = isAppveyor && AppVeyor.Environment.RepoTag
 
 "Package" =?> ("DeployGitHub", (shouldDeploy)) ==> "Default"
 "Package" =?> ("DeployNuGet", (shouldDeploy)) ==> "Default"
