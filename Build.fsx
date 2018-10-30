@@ -158,31 +158,6 @@ Target.create "DeployGitHub" (fun _ ->
             }
         )
         |> Async.RunSynchronously
-
-
-        GitHub.createClientWithToken gitHubToken.Value
-        |> (fun clientAsync -> 
-            async {
-                let! client = clientAsync
-                let releaseClient = client.Repository.Release
-                let newRelease = new Octokit.NewRelease(AppVeyor.Environment.RepoTagName);
-                newRelease.Name <- releaseName
-                newRelease.Body <- releaseBody
-                newRelease.Draft <- true
-                newRelease.Prerelease <- isPrerelease
-
-                let! release = releaseClient.Create(gitOwner, gitName, newRelease) |> Async.AwaitTask
-                
-                let release : GitHub.Release = {
-                    Client = client;
-                    Owner = gitOwner;
-                    RepoName = gitName;
-                    Release = release
-                }
-
-                return release
-            }
-        )
 )
 
 Target.create "DeployNuGet" (fun _ -> 
