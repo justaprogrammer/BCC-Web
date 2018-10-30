@@ -9,7 +9,6 @@ open Fake.DotNet.NuGet
 open Fake.Core
 open Fake.Tools
 open Fake.Api
-open Octokit
 
 BuildServer.install [
     AppVeyor.Installer
@@ -168,9 +167,13 @@ Target.create "DeployGitHub" (fun _ ->
                     |> GitHub.uploadFiles files
                     |> GitHub.publishDraft
                     |> Async.RunSynchronously
+
+                    Trace.traceImportantfn "GitHub Release: %s" releaseName
             }
         )
+        |> Async.Catch
         |> Async.RunSynchronously
+        |> ignore
 )
 
 Target.create "DeployNuGet" (fun _ -> 
