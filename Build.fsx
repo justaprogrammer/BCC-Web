@@ -183,7 +183,7 @@ Target.create "DeployNuGet" (fun _ ->
     else
         NuGet.NuGetPublish (fun p -> {p with
                                         AccessKey = nugetApiKey.Value
-                                        Project = "BCC.Core"
+                                        Project = "BCC-Core"
                                         Version = gitVersion.NuGetVersionV2
                                         WorkingDir = "nuget"
                                      })
