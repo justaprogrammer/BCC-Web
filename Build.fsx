@@ -181,12 +181,17 @@ Target.create "DeployNuGet" (fun _ ->
     if(nugetApiKey.IsNone) then
         Trace.traceError "NUGET_API_KEY is not defined"
     else
-        NuGet.NuGetPublish (fun p -> {p with
-                                        AccessKey = nugetApiKey.Value
-                                        Project = "BCC-Core"
-                                        Version = gitVersion.NuGetVersionV2
-                                        WorkingDir = "nuget"
-                                     })
+        try
+            NuGet.NuGetPublish (fun p -> { p with
+                                             AccessKey = nugetApiKey.Value
+                                             Project = "BCC-Core"
+                                             Version = gitVersion.NuGetVersionV2
+                                             WorkingDir = "nuget" })
+                                
+            Trace.traceImportant "Uploaded NuGet Package"
+        with ex ->
+            Trace.traceError "Unable to create NuGet Package"
+            Trace.traceException ex
 )
 
 Target.create "DeployChocolatey" (fun _ -> 
