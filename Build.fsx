@@ -8,6 +8,9 @@ open Fake.DotNet
 open Fake.DotNet.NuGet
 open Fake.Core
 open Fake.Tools
+open Fake.Api
+open Octokit
+open Octokit.Clients
 
 BuildServer.install [
     AppVeyor.Installer
@@ -78,13 +81,8 @@ Target.create "Package" (fun _ ->
     Shell.copyRecursive "src/BCC.Core/bin/Release" "nuget/lib" false
     |> ignore
 
-    let version = 
-        match String.isNullOrWhiteSpace gitVersion.PreReleaseLabel with
-        | false -> sprintf "%s-%s%s" gitVersion.MajorMinorPatch gitVersion.PreReleaseLabel gitVersion.BuildMetaDataPadded
-        | _ -> sprintf "%s" gitVersion.MajorMinorPatch
-
     NuGet.NuGetPack (fun p -> { p with
-                                  Version = version
+                                  Version = gitVersion.NuGetVersionV2
                                   OutputPath = "nuget" }) "nuget/Package.nuspec"
 
     !! "nuget/*.nupkg"
@@ -113,7 +111,61 @@ Target.create "Coverage" (fun _ ->
         )
 )
 
-Target.create "Default" (fun _ -> ())
+Target.create "DeployGitHub" (fun _ -> 
+    let gitHubToken = Environment.environVarOrNone("GITHUB_TOKEN")
+    if(gitHubToken.IsNone) then
+        Trace.traceError "GITHUB_TOKEN is not defined"
+    else        
+        let (gitOwner, gitName) =
+            AppVeyor.Environment.RepoName.Split('/')
+            |> Array.pairwise
+            |> Array.head
+
+        let isPrerelease = not(String.isNullOrWhiteSpace gitVersion.PreReleaseTag)
+        let releaseName = sprintf "%s - %s" AppVeyor.Environment.ProjectName gitVersion.SemVer
+        let releaseBody = sprintf "## %s" releaseName
+
+        let files = !! "nuget/*.nupkg"
+
+        GitHub.createClientWithToken gitHubToken.Value
+        |> (fun clientAsync -> 
+            async {
+                let! client = clientAsync
+                let releaseClient = client.Repository.Release
+                let newRelease = new Octokit.NewRelease(AppVeyor.Environment.RepoTagName);
+                newRelease.Name <- releaseName
+                newRelease.Body <- releaseBody
+                newRelease.Draft <- true
+                newRelease.Prerelease <- isPrerelease
+
+                let! release = releaseClient.Create(gitOwner, gitName, newRelease) |> Async.AwaitTask;
+                
+                let release : GitHub.Release = {
+                    Client = client;
+                    Owner = gitOwner;
+                    RepoName = gitName;
+                    Release = release
+                }
+
+                return release
+            }
+        )
+        |> GitHub.uploadFiles files
+        |> GitHub.publishDraft
+        |> Async.RunSynchronously
+)
+
+Target.create "DeployNuGet" (fun _ -> 
+    ()
+)
+
+Target.create "DeployChocolatey" (fun _ -> 
+    ()
+)
+
+Target.create "Default" (fun _ -> 
+    ()
+)
 
 open Fake.Core.TargetOperators
 "Clean" ==> "Build"
@@ -121,6 +173,13 @@ open Fake.Core.TargetOperators
 "Build" ==> "Package" ==> "Default"
 "Build" ==> "Test" ==> "Default"
 "Build" ==> "Coverage" ==> "Default"
+
+//let shouldDeploy = isAppveyor && AppVeyor.Environment.RepoTag
+let shouldDeploy = true
+
+"Package" =?> ("DeployGitHub", (shouldDeploy)) ==> "Default"
+"Package" =?> ("DeployNuGet", (shouldDeploy)) ==> "Default"
+"Package" =?> ("DeployChocolatey", (shouldDeploy)) ==> "Default"
 
 // start build
 Target.runOrDefault "Default"
