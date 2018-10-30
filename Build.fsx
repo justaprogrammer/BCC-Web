@@ -9,6 +9,7 @@ open Fake.DotNet.NuGet
 open Fake.Core
 open Fake.Tools
 open Fake.Api
+open Octokit
 
 BuildServer.install [
     AppVeyor.Installer
@@ -125,7 +126,13 @@ Target.create "DeployGitHub" (fun _ ->
             async {
                 let! client = clientAsync
                 let releaseClient = client.Repository.Release
-                let! release = releaseClient.Get(gitOwner, gitName, AppVeyor.Environment.RepoTagName) |> Async.AwaitTask
+                
+                let! release =
+                    try
+                        releaseClient.Get(gitOwner, gitName, AppVeyor.Environment.RepoTagName) |> Async.AwaitTask
+                    with
+                    | :? NotFoundException as ex -> async.Return null
+
                 if release <> null then
                     Trace.traceErrorfn "Release at %s already exists" AppVeyor.Environment.RepoTagName
                 else
