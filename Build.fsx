@@ -123,7 +123,7 @@ Target.create "DeployGitHub" (fun _ ->
                 let! client = clientAsync
                 let releaseClient = client.Repository.Release
                 
-                let! release = async {
+                let! someRelease = async {
                     let! exc = Async.Catch(async {
                         let! str = Async.AwaitTask (releaseClient.Get(gitOwner, gitName, repoTagName))
                         return str })
@@ -133,7 +133,7 @@ Target.create "DeployGitHub" (fun _ ->
                    | Choice2Of2 _ -> return None
                 }
 
-                match release with 
+                match someRelease with 
                 | Some release -> Trace.traceErrorfn "Release '%s' @ '%s' already exists" release.Name repoTagName
                 | _ ->
                     let isPrerelease = not(String.isNullOrWhiteSpace gitVersion.PreReleaseTag)
