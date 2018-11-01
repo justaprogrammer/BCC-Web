@@ -1,6 +1,8 @@
-﻿namespace BCC.Core.Model.CheckRunSubmission
+﻿using System;
+
+namespace BCC.Core.Model.CheckRunSubmission
 {
-    public class CheckRunImage
+    public class CheckRunImage: IEquatable<CheckRunImage>
     {
         public CheckRunImage(string alt, string imageUrl)
         {
@@ -13,5 +15,14 @@
         public string ImageUrl { get; set; }
 
         public string Caption { get; set; }
+        public bool Equals(CheckRunImage other)
+        {
+            if (other == null)
+                return false;
+
+            return Alt == other.Alt &&
+                   ImageUrl == other.ImageUrl &&
+                   Caption == other.Caption;
+        }
     }
 }
