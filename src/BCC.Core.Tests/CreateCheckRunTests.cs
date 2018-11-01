@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Text;
 using BCC.Core.Model.CheckRunSubmission;
-using BCC.Core.Tests.Util;
 using Bogus;
-using Microsoft.Extensions.Logging;
-using NSubstitute;
+using FluentAssertions;
+using FluentAssertions.Common;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -14,6 +11,8 @@ namespace BCC.Core.Tests
 {
     public class CreateCheckRunTests
     {
+        [SuppressMessage("ReSharper", "ArgumentsStyleOther")]
+        [SuppressMessage("ReSharper", "ArgumentsStyleNamedExpression")]
         static CreateCheckRunTests()
         {
             Faker = new Faker();
@@ -21,23 +20,31 @@ namespace BCC.Core.Tests
                 .CustomInstantiator(f =>
                 {
                     var lineNumber = f.Random.Int(1);
-                    return new Annotation(f.System.FileName(), lineNumber,
-                        lineNumber, f.PickRandom<CheckWarningLevel>(), f.Lorem.Word());
+                    return new Annotation(
+                        filename: f.System.FileName(),
+                        startLine: lineNumber,
+                        endLine: lineNumber,
+                        checkWarningLevel: f.PickRandom<CheckWarningLevel>(),
+                        message: f.Lorem.Word())
+                    {
+                        Title = f.Random.Words(3)
+                    };
+                });
+
+            FakeCheckRunImage = new Faker<CheckRunImage>()
+                .CustomInstantiator(f => new CheckRunImage(alt:f.Random.Words(3), imageUrl:f.Internet.Url())
+                {
+                    Caption = f.Random.Words(3)
                 });
         }
 
+
         public static Faker<Annotation> FakeAnnotation { get; }
+        public static Faker<CheckRunImage> FakeCheckRunImage { get; set; }
         public static Faker Faker { get; }
 
-        private readonly ITestOutputHelper _testOutputHelper;
-
-        public CreateCheckRunTests(ITestOutputHelper testOutputHelper)
-        {
-            _testOutputHelper = testOutputHelper;
-        }
-
         [Fact]
-        public void EquatableWithNSubtitute()
+        public void EquatableTest()
         {
             var createCheckRun = new CreateCheckRun
             {
@@ -61,15 +68,7 @@ namespace BCC.Core.Tests
                 Annotations = createCheckRun.Annotations.Select(annotation => annotation).ToArray(),
             };
 
-            var someListener = Substitute.For<SomeInterface>();
-            someListener.Blah(createCheckRun);
-
-            someListener.Received(1).Blah(Arg.Is<CreateCheckRun>(run => run.Equals(copy)));
+            createCheckRun.Equals(copy).Should().BeTrue();
         }
-    }
-
-    public interface SomeInterface
-    {
-        void Blah(CreateCheckRun createCheckRun);
     }
 }
