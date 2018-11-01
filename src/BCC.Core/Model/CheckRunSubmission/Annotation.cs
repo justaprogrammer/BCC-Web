@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace BCC.Core.Model.CheckRunSubmission
 {
@@ -12,6 +13,7 @@ namespace BCC.Core.Model.CheckRunSubmission
         public int StartLine { get; set; }
         public int EndLine { get; set; }
 
+        [SuppressMessage("ReSharper", "UnusedMember.Global")]
         public Annotation()
         {
         }

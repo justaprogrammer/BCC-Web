@@ -22,9 +22,9 @@ namespace BCC.Core.Model.CheckRunSubmission
 
         public CreateCheckRun(string name, string title, string summary, CheckConclusion conclusion, DateTimeOffset startedAt, DateTimeOffset completedAt)
         {
-            Name = name;
-            Title = title;
-            Summary = summary;
+            Name = name ?? throw new ArgumentNullException(nameof(name));
+            Title = title ?? throw new ArgumentNullException(nameof(title));
+            Summary = summary ?? throw new ArgumentNullException(nameof(summary));
             Conclusion = conclusion;
             StartedAt = startedAt;
             CompletedAt = completedAt;

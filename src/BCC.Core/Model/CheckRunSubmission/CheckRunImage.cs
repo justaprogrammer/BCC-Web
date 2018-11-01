@@ -1,9 +1,15 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace BCC.Core.Model.CheckRunSubmission
 {
     public class CheckRunImage: IEquatable<CheckRunImage>
     {
+        [SuppressMessage("ReSharper", "UnusedMember.Global")]
+        public CheckRunImage()
+        {
+        }
+
         public CheckRunImage(string alt, string imageUrl)
         {
             Alt = alt;
