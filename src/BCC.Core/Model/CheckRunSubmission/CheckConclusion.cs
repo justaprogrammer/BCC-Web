@@ -1,5 +1,8 @@
-﻿namespace BCC.Core.Model.CheckRunSubmission
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace BCC.Core.Model.CheckRunSubmission
 {
+    [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public enum CheckConclusion
     {
         Success,

@@ -1,6 +1,9 @@
-﻿namespace BCC.Core.Model.CheckRunSubmission
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
+
+namespace BCC.Core.Model.CheckRunSubmission
 {
-    public class Annotation
+    public class Annotation : IEquatable<Annotation>
     {
         public string Filename { get; set;  }
         public CheckWarningLevel CheckWarningLevel { get; set; }
@@ -10,6 +13,7 @@
         public int StartLine { get; set; }
         public int EndLine { get; set; }
 
+        [SuppressMessage("ReSharper", "UnusedMember.Global")]
         public Annotation()
         {
         }
@@ -22,6 +26,20 @@
             Message = message;
             StartLine = startLine;
             EndLine = endLine;
+        }
+
+        public bool Equals(Annotation other)
+        {
+            if (other == null)
+                return false;
+
+            return Filename == other.Filename &&
+                   CheckWarningLevel == other.CheckWarningLevel &&
+                   Title == other.Title &&
+                   RawDetails == other.RawDetails &&
+                   Message == other.Message &&
+                   StartLine == other.StartLine &&
+                   EndLine == other.EndLine;
         }
     }
 }

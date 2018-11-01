@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Linq;
+using System.Threading;
 
 namespace BCC.Core.Model.CheckRunSubmission
 {
-    public class CreateCheckRun
+    public class CreateCheckRun : IEquatable<CreateCheckRun>
     {
         public string Name { get; set; }
         public string Title { get; set; }
@@ -20,12 +22,34 @@ namespace BCC.Core.Model.CheckRunSubmission
 
         public CreateCheckRun(string name, string title, string summary, CheckConclusion conclusion, DateTimeOffset startedAt, DateTimeOffset completedAt)
         {
-            Name = name;
-            Title = title;
-            Summary = summary;
+            Name = name ?? throw new ArgumentNullException(nameof(name));
+            Title = title ?? throw new ArgumentNullException(nameof(title));
+            Summary = summary ?? throw new ArgumentNullException(nameof(summary));
             Conclusion = conclusion;
             StartedAt = startedAt;
             CompletedAt = completedAt;
+        }
+
+        public bool Equals(CreateCheckRun other)
+        {
+            if (other == null)
+                return false;
+
+            var b = Name == other.Name &&
+                    Title == other.Title &&
+                    Summary == other.Summary &&
+                    Text == other.Text &&
+                    Conclusion == other.Conclusion &&
+                    StartedAt == other.StartedAt &&
+                    CompletedAt == other.CompletedAt;
+
+            var c = (Annotations == null) == (other.Annotations == null) &&
+                    (Annotations == null || Annotations.SequenceEqual(other.Annotations));
+
+            var d = (Images == null) == (other.Images == null) &&
+                    (Images == null || Images.SequenceEqual(other.Images));
+
+            return b && c && d;
         }
     }
 }

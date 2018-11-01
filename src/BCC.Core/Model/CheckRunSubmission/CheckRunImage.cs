@@ -1,7 +1,15 @@
-﻿namespace BCC.Core.Model.CheckRunSubmission
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
+
+namespace BCC.Core.Model.CheckRunSubmission
 {
-    public class CheckRunImage
+    public class CheckRunImage: IEquatable<CheckRunImage>
     {
+        [SuppressMessage("ReSharper", "UnusedMember.Global")]
+        public CheckRunImage()
+        {
+        }
+
         public CheckRunImage(string alt, string imageUrl)
         {
             Alt = alt;
@@ -13,5 +21,14 @@
         public string ImageUrl { get; set; }
 
         public string Caption { get; set; }
+        public bool Equals(CheckRunImage other)
+        {
+            if (other == null)
+                return false;
+
+            return Alt == other.Alt &&
+                   ImageUrl == other.ImageUrl &&
+                   Caption == other.Caption;
+        }
     }
 }
