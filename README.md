@@ -7,6 +7,7 @@
 [![NuGet](http://img.shields.io/nuget/v/bcc-core.svg)](https://www.nuget.org/packages/bcc-core)
 
 ## Overview
+BCC-Core is a shared library used in conjunction with [Build Cross Check](https://github.com/justaprogrammer/BuildCrossCheck) tools.
 
 ## Documentation
 You can find the documentation [here](docs/readme.md).
