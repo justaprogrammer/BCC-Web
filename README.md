@@ -1,4 +1,4 @@
-# Build Cross Check - Core
+# BCC - Core
 
 [![appveyor](https://ci.appveyor.com/api/projects/status/github/justaprogrammer/bcc-core?svg=true&branch=master)](https://ci.appveyor.com/project/JustAProgrammer/bcc-core)
 [![codecov](https://codecov.io/gh/justaprogrammer/bcc-core/branch/master/graph/badge.svg)](https://codecov.io/gh/justaprogrammer/bcc-core)
@@ -9,7 +9,7 @@
 ## Overview
 
 ## Documentation
-
+You can find the documentation [here](docs/readme.md).
 You can find the full documentation for Build Cross Check [here](https://github.com/justaprogrammer/BuildCrossCheck/blob/master/docs/readme.md).
 
 ## Licenses
