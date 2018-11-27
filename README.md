@@ -10,7 +10,7 @@
 
 ## Documentation
 
-You can find the full documentation for Build Cross Check [here](https://github.com/justaprogrammer/BuildCrossCheck/docs/readme.md).
+You can find the full documentation for Build Cross Check [here](https://github.com/justaprogrammer/BuildCrossCheck/blob/master/docs/readme.md).
 
 ## Licenses
 - This source is distributed under under the AGPL.
