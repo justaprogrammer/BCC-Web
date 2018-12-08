@@ -59,5 +59,32 @@ namespace BCC.Core.Tests {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {&quot;name&quot;:&quot;MSBuild Log&quot;,&quot;title&quot;:&quot;0 errors - 1 warning&quot;,&quot;summary&quot;:&quot;- [TestConsoleApp1/Program.cs(13)](https://github.com/justaprogrammer/TestConsoleApp1/tree/815aa7a3051cc0d0ae6c6c2c89cba125e8027d86/TestConsoleApp1/Program.cs#L13) **Warning - CS0219** The variable &apos;hello&apos; is assigned but its value is never used\r\n&quot;,&quot;text&quot;:null,&quot;conclusion&quot;:&quot;success&quot;,&quot;annotations&quot;:[{&quot;filename&quot;:&quot;TestConsoleApp1/Program.cs&quot;,&quot;checkWarningLevel&quot;:&quot;warning&quot;,&quot;title&quot;:&quot;CS0219: TestConsoleApp1/Program.cs(13)&quot;,&quot;rawDetails&quot;:null,&quot;message&quot; [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string CheckRunSample {
+            get {
+                return ResourceManager.GetString("CheckRunSample", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {&quot;Name&quot;:&quot;MSBuild Log&quot;,&quot;Title&quot;:&quot;0 errors - 1 warning&quot;,&quot;Summary&quot;:&quot;- [TestConsoleApp1/Program.cs(13)](https://github.com/justaprogrammer/TestConsoleApp1/tree/815aa7a3051cc0d0ae6c6c2c89cba125e8027d86/TestConsoleApp1/Program.cs#L13) **Warning - CS0219** The variable &apos;hello&apos; is assigned but its value is never used\r\n&quot;,&quot;Text&quot;:null,&quot;Conclusion&quot;:0,&quot;Annotations&quot;:[{&quot;Filename&quot;:&quot;TestConsoleApp1/Program.cs&quot;,&quot;CheckWarningLevel&quot;:1,&quot;Title&quot;:&quot;CS0219: TestConsoleApp1/Program.cs(13)&quot;,&quot;RawDetails&quot;:null,&quot;Message&quot;:&quot;The variable &apos; [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string CheckRunSampleOriginal {
+            get {
+                return ResourceManager.GetString("CheckRunSampleOriginal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {&quot;names&quot;:&quot;MSBuild Log&quot;,&quot;titles&quot;:&quot;0 errors - 1 warning&quot;,&quot;summarys&quot;:&quot;- [TestConsoleApp1/Program.cs(13)](https://github.com/justaprogrammer/TestConsoleApp1/tree/815aa7a3051cc0d0ae6c6c2c89cba125e8027d86/TestConsoleApp1/Program.cs#L13) **Warning - CS0219** The variable &apos;hello&apos; is assigned but its value is never used\r\n&quot;,&quot;text&quot;:null,&quot;conclusion&quot;:&quot;success&quot;,&quot;annotations&quot;:[{&quot;filename&quot;:&quot;TestConsoleApp1/Program.cs&quot;,&quot;checkWarningLevel&quot;:&quot;warning&quot;,&quot;title&quot;:&quot;CS0219: TestConsoleApp1/Program.cs(13)&quot;,&quot;rawDetails&quot;:null,&quot;messa [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string CheckRunSampleWrong {
+            get {
+                return ResourceManager.GetString("CheckRunSampleWrong", resourceCulture);
+            }
+        }
     }
 }

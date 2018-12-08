@@ -10,7 +10,9 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>BuildCrossCheck Core Functionality</description>
     <copyright>Copyright 2018</copyright>
-    <dependencies />
+    <dependencies>
+      <dependency id="Newtonsoft.Json" version="12.0.1" />
+    </dependencies>
     <tags>BuildCrossCheck GitHub CheckRun BuildTool</tags>
   </metadata>
 </package>
