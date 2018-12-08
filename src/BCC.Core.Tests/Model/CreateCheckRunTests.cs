@@ -3,11 +3,9 @@ using System.Linq;
 using BCC.Core.Model.CheckRunSubmission;
 using Bogus;
 using FluentAssertions;
-using FluentAssertions.Common;
 using Xunit;
-using Xunit.Abstractions;
 
-namespace BCC.Core.Tests
+namespace BCC.Core.Tests.Model
 {
     public class CreateCheckRunTests
     {
