@@ -3,7 +3,7 @@
 namespace BCC.Core.Model.CheckRunSubmission
 {
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
-    public enum CheckWarningLevel
+    public enum AnnotationLevel
     {
         Notice = 0,
         Warning = 1,
