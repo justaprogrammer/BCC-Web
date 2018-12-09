@@ -22,7 +22,7 @@ namespace BCC.Core.Tests.Model
                         filename: f.System.FileName(),
                         startLine: lineNumber,
                         endLine: lineNumber,
-                        checkWarningLevel: f.PickRandom<CheckWarningLevel>(),
+                        annotationLevel: f.PickRandom<AnnotationLevel>(),
                         message: f.Lorem.Word())
                     {
                         Title = f.Random.Words(3)

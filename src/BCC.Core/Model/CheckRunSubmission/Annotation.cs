@@ -6,7 +6,7 @@ namespace BCC.Core.Model.CheckRunSubmission
     public class Annotation : IEquatable<Annotation>
     {
         public string Filename { get; set;  }
-        public CheckWarningLevel CheckWarningLevel { get; set; }
+        public AnnotationLevel AnnotationLevel { get; set; }
         public string Title { get; set; }
         public string RawDetails { get; set; }
         public string Message { get; set; }
@@ -19,10 +19,10 @@ namespace BCC.Core.Model.CheckRunSubmission
         }
 
         public Annotation(string filename,
-            int startLine, int endLine, CheckWarningLevel checkWarningLevel, string message)
+            int startLine, int endLine, AnnotationLevel annotationLevel, string message)
         {
             Filename = filename;
-            CheckWarningLevel = checkWarningLevel;
+            AnnotationLevel = annotationLevel;
             Message = message;
             StartLine = startLine;
             EndLine = endLine;
@@ -34,7 +34,7 @@ namespace BCC.Core.Model.CheckRunSubmission
                 return false;
 
             return Filename == other.Filename &&
-                   CheckWarningLevel == other.CheckWarningLevel &&
+                   AnnotationLevel == other.AnnotationLevel &&
                    Title == other.Title &&
                    RawDetails == other.RawDetails &&
                    Message == other.Message &&
