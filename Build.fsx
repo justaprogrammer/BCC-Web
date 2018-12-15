@@ -8,7 +8,6 @@ open Fake.DotNet
 open Fake.DotNet.NuGet
 open Fake.Core
 open Fake.Tools
-open Fake.Api
 
 BuildServer.install [
     AppVeyor.Installer
