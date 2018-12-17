@@ -1,3 +1,4 @@
+version 5.193.0
 source https://www.nuget.org/api/v2
 
 // [ FAKE GROUP ]
@@ -13,7 +14,6 @@ group FakeBuild
   nuget Fake.DotNet.NuGet
   nuget Fake.IO.FileSystem
   nuget Fake.Tools.GitVersion
-  nuget Fake.Api.GitHub
   groupref FakeBuildResources
 
 group FakeBuildResources
