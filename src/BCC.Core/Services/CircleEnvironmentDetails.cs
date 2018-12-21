@@ -12,5 +12,13 @@
         {
             _environmentProvider = environmentProvider;
         }
+
+        public string GitHubRepo => throw new System.NotImplementedException();
+
+        public string GitHubOwner => throw new System.NotImplementedException();
+
+        public string BuildFolder => throw new System.NotImplementedException();
+
+        public string CommitHash => throw new System.NotImplementedException();
     }
 }
