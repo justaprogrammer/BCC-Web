@@ -7,30 +7,27 @@ namespace BCC.Core.Services
     /// Wrapper of AppVeyor environment information
     /// https://www.appveyor.com/docs/environment-variables/
     /// </summary>
-    public class AppVeyorEnvironmentDetails : IEnvironmentDetails
+    public class AppVeyorEnvironmentDetails : EnvironmentDetailsBase
     {
-        private readonly IEnvironmentProvider _environmentProvider;
-
-        public AppVeyorEnvironmentDetails(IEnvironmentProvider environmentProvider)
+        public AppVeyorEnvironmentDetails(IEnvironmentProvider environmentProvider) : base(environmentProvider)
         {
-            _environmentProvider = environmentProvider;
         }
 
-        public string GitHubRepo => _environmentProvider
+        public override string GitHubRepo => Environment
             .GetEnvironmentVariable("APPVEYOR_REPO_NAME")
             .Split(new[] { "/" }, StringSplitOptions.RemoveEmptyEntries)
             .Skip(1)
             .First();
 
-        public string GitHubOwner => _environmentProvider
+        public override string GitHubOwner => Environment
             .GetEnvironmentVariable("APPVEYOR_REPO_NAME")
             .Split(new[] { "/" }, StringSplitOptions.RemoveEmptyEntries)
             .First();
 
-        public string BuildFolder => _environmentProvider
+        public override string BuildFolder => Environment
             .GetEnvironmentVariable("APPVEYOR_BUILD_FOLDER");
 
-        public string CommitHash => _environmentProvider
+        public override string CommitHash => Environment
             .GetEnvironmentVariable("APPVEYOR_REPO_COMMIT");
     }
 }

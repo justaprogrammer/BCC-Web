@@ -4,13 +4,18 @@
     /// Wrapper of Jenkins environment information
     /// https://wiki.jenkins.io/display/JENKINS/Building+a+software+project#Buildingasoftwareproject-belowJenkinsSetEnvironmentVariables
     /// </summary>
-    public class JenkinsEnvironmentDetails : IEnvironmentDetails
+    public class JenkinsEnvironmentDetails : EnvironmentDetailsBase
     {
-        private readonly IEnvironmentProvider _environmentProvider;
-
-        public JenkinsEnvironmentDetails(IEnvironmentProvider environmentProvider)
+        public JenkinsEnvironmentDetails(IEnvironmentProvider environmentProvider) : base(environmentProvider)
         {
-            _environmentProvider = environmentProvider;
         }
+
+        public override string GitHubRepo => null;
+
+        public override string GitHubOwner => null;
+
+        public override string BuildFolder => Environment.GetEnvironmentVariable("WORKSPACE");
+
+        public override string CommitHash => Environment.GetEnvironmentVariable("GIT_COMMIT");
     }
 }

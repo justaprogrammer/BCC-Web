@@ -4,21 +4,18 @@
     /// Wrapper of Circle environment information
     /// https://circleci.com/docs/2.0/env-vars/#built-in-environment-variables
     /// </summary>
-    public class CircleEnvironmentDetails : IEnvironmentDetails
+    public class CircleEnvironmentDetails : EnvironmentDetailsBase
     {
-        private readonly IEnvironmentProvider _environmentProvider;
-
-        public CircleEnvironmentDetails(IEnvironmentProvider environmentProvider)
+        public CircleEnvironmentDetails(IEnvironmentProvider environmentProvider) : base(environmentProvider)
         {
-            _environmentProvider = environmentProvider;
         }
 
-        public string GitHubRepo => throw new System.NotImplementedException();
+        public override string GitHubRepo => Environment.GetEnvironmentVariable("CIRCLE_PROJECT_REPONAME");
 
-        public string GitHubOwner => throw new System.NotImplementedException();
+        public override string GitHubOwner => Environment.GetEnvironmentVariable("CIRCLE_PROJECT_USERNAME");
 
-        public string BuildFolder => throw new System.NotImplementedException();
+        public override string BuildFolder => Environment.GetEnvironmentVariable("CIRCLE_WORKING_DIRECTORY");
 
-        public string CommitHash => throw new System.NotImplementedException();
+        public override string CommitHash => Environment.GetEnvironmentVariable("CIRCLE_SHA1");
     }
 }

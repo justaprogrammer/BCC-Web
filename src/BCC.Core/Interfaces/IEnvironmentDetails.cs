@@ -6,5 +6,6 @@
         string GitHubOwner { get; }
         string BuildFolder { get; }
         string CommitHash { get; }
+        string BuildCrossCheckToken { get; }
     }
 }
