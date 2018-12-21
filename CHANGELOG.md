@@ -1,14 +1,8 @@
 <a name="unreleased"></a>
 ## [Unreleased]
 
-
-<a name="v0.1.8"></a>
-## [v0.1.8] - 2018-12-21
-### Feature
+### Features
 - Adding a changelog
-
-### Pull Requests
-- Merge pull request [#10](https://github.com/justaprogrammer/BCC-Core/issues/10) from justaprogrammer/remove-fake-deploy
 
 
 <a name="v0.1.7"></a>
@@ -148,8 +142,7 @@
 - Merge pull request [#2](https://github.com/justaprogrammer/BCC-Core/issues/2) from justaprogrammer/fixes/pr-builds
 
 
-[Unreleased]: https://github.com/justaprogrammer/BCC-Core/compare/v0.1.8...HEAD
-[v0.1.8]: https://github.com/justaprogrammer/BCC-Core/compare/v0.1.7...v0.1.8
+[Unreleased]: https://github.com/justaprogrammer/BCC-Core/compare/v0.1.7...HEAD
 [v0.1.7]: https://github.com/justaprogrammer/BCC-Core/compare/v0.1.6...v0.1.7
 [v0.1.6]: https://github.com/justaprogrammer/BCC-Core/compare/v0.1.5...v0.1.6
 [v0.1.5]: https://github.com/justaprogrammer/BCC-Core/compare/v0.1.4...v0.1.5
