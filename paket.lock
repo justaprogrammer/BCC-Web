@@ -706,7 +706,7 @@ GROUP FakeBuildResources
 STORAGE: PACKAGES
 NUGET
   remote: https://www.nuget.org/api/v2
-    NuGet.CommandLine (4.7.1)
+    NuGet.CommandLine (4.9.2)
 
 GROUP groupref FakeBuildResources
 
