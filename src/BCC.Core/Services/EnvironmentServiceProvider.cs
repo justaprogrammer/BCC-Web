@@ -1,37 +1,43 @@
-﻿namespace BCC.Core.Services
+﻿using System;
+
+namespace BCC.Core.Services
 {
-    public class EnvironmentService: IEnvironmentService
+    public class EnvironmentServiceProvider: IEnvironmentServiceProvider
     {
         private readonly IEnvironmentProvider _environmentProvider;
 
-        public EnvironmentService(IEnvironmentProvider environmentProvider)
+        public EnvironmentServiceProvider(IEnvironmentProvider environmentProvider)
         {
             _environmentProvider = environmentProvider;
         }
 
-        public IEnvironmentDetails GetEnvironmentDetails()
+        public IEnvironmentService GetEnvironmentService()
         {
             if (!string.IsNullOrWhiteSpace(_environmentProvider.GetEnvironmentVariable("APPVEYOR")))
             {
-                return new AppVeyorEnvironmentDetails(_environmentProvider);
+                return new AppVeyorEnvironmentService(_environmentProvider);
             }
 
             if (!string.IsNullOrWhiteSpace(_environmentProvider.GetEnvironmentVariable("TRAVIS")))
             {
-                return new TravisEnvironmentDetails(_environmentProvider);
+                return new TravisEnvironmentService(_environmentProvider);
             }
 
             if (!string.IsNullOrWhiteSpace(_environmentProvider.GetEnvironmentVariable("CIRCLECI")))
             {
-                return new CircleEnvironmentDetails(_environmentProvider);
+                return new CircleEnvironmentService(_environmentProvider);
             }
 
             if (!string.IsNullOrWhiteSpace(_environmentProvider.GetEnvironmentVariable("JENKINS_HOME")))
             {
-                return new JenkinsEnvironmentDetails(_environmentProvider);
+                return new JenkinsEnvironmentService(_environmentProvider);
             }
 
-            return null;
+            throw new EnvironmentServiceNotFoundException();
         }
+    }
+
+    public class EnvironmentServiceNotFoundException : Exception
+    {
     }
 }

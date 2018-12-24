@@ -4,9 +4,9 @@
     /// Wrapper of Jenkins environment information
     /// https://wiki.jenkins.io/display/JENKINS/Building+a+software+project#Buildingasoftwareproject-belowJenkinsSetEnvironmentVariables
     /// </summary>
-    public class JenkinsEnvironmentDetails : EnvironmentDetailsBase
+    public class JenkinsEnvironmentService : EnvironmentServiceBase
     {
-        public JenkinsEnvironmentDetails(IEnvironmentProvider environmentProvider) : base(environmentProvider)
+        public JenkinsEnvironmentService(IEnvironmentProvider environmentProvider) : base(environmentProvider)
         {
         }
 

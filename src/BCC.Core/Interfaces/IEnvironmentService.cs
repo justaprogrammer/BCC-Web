@@ -2,6 +2,10 @@
 {
     public interface IEnvironmentService
     {
-        IEnvironmentDetails GetEnvironmentDetails();
+        string GitHubRepo { get; }
+        string GitHubOwner { get; }
+        string BuildFolder { get; }
+        string CommitHash { get; }
+        string BuildCrossCheckToken { get; }
     }
 }

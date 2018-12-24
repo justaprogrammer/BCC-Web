@@ -7,9 +7,9 @@ namespace BCC.Core.Services
     /// Wrapper of AppVeyor environment information
     /// https://www.appveyor.com/docs/environment-variables/
     /// </summary>
-    public class AppVeyorEnvironmentDetails : EnvironmentDetailsBase
+    public class AppVeyorEnvironmentService : EnvironmentServiceBase
     {
-        public AppVeyorEnvironmentDetails(IEnvironmentProvider environmentProvider) : base(environmentProvider)
+        public AppVeyorEnvironmentService(IEnvironmentProvider environmentProvider) : base(environmentProvider)
         {
         }
 

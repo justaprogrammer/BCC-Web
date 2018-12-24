@@ -4,9 +4,9 @@
     /// Wrapper of Circle environment information
     /// https://circleci.com/docs/2.0/env-vars/#built-in-environment-variables
     /// </summary>
-    public class CircleEnvironmentDetails : EnvironmentDetailsBase
+    public class CircleEnvironmentService : EnvironmentServiceBase
     {
-        public CircleEnvironmentDetails(IEnvironmentProvider environmentProvider) : base(environmentProvider)
+        public CircleEnvironmentService(IEnvironmentProvider environmentProvider) : base(environmentProvider)
         {
         }
 

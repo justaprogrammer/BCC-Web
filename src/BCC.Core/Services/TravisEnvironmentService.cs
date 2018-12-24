@@ -7,9 +7,9 @@ namespace BCC.Core.Services
     /// Wrapper of Travis environment information
     /// https://docs.travis-ci.com/user/environment-variables/
     /// </summary>
-    public class TravisEnvironmentDetails : EnvironmentDetailsBase
+    public class TravisEnvironmentService : EnvironmentServiceBase
     {
-        public TravisEnvironmentDetails(IEnvironmentProvider environmentProvider) : base(environmentProvider)
+        public TravisEnvironmentService(IEnvironmentProvider environmentProvider) : base(environmentProvider)
         {
         }
 

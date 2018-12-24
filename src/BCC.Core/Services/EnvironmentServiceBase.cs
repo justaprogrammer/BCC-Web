@@ -1,10 +1,10 @@
 ﻿namespace BCC.Core.Services
 {
-    public abstract class EnvironmentDetailsBase : IEnvironmentDetails
+    public abstract class EnvironmentServiceBase : IEnvironmentService
     {
         protected IEnvironmentProvider Environment { get; }
 
-        public EnvironmentDetailsBase(IEnvironmentProvider environmentProvider)
+        public EnvironmentServiceBase(IEnvironmentProvider environmentProvider)
         {
             Environment = environmentProvider;
         }

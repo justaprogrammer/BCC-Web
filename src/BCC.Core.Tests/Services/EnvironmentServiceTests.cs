@@ -19,9 +19,8 @@ namespace BCC.Core.Tests.Services
         public void ShouldReturnNull()
         {
             var environmentProvider = Substitute.For<IEnvironmentProvider>();
-            var environmentService = new EnvironmentService(environmentProvider);
-            var environmentDetails = environmentService.GetEnvironmentDetails();
-            environmentDetails.Should().BeNull();
+            var environmentServiceProvider = new EnvironmentServiceProvider(environmentProvider);
+            Assert.Throws<EnvironmentServiceNotFoundException>(() => environmentServiceProvider.GetEnvironmentService());
         }
 
         [Fact]
@@ -30,9 +29,9 @@ namespace BCC.Core.Tests.Services
             var environmentProvider = Substitute.For<IEnvironmentProvider>();
             environmentProvider.GetEnvironmentVariable("APPVEYOR").Returns("True");
 
-            var environmentService = new EnvironmentService(environmentProvider);
-            var environmentDetails = environmentService.GetEnvironmentDetails();
-            environmentDetails.Should().BeOfType<AppVeyorEnvironmentDetails>();
+            var environmentServiceProvider = new EnvironmentServiceProvider(environmentProvider);
+            var environmentService = environmentServiceProvider.GetEnvironmentService();
+            environmentService.Should().BeOfType<AppVeyorEnvironmentService>();
         }
 
         [Fact]
@@ -41,9 +40,9 @@ namespace BCC.Core.Tests.Services
             var environmentProvider = Substitute.For<IEnvironmentProvider>();
             environmentProvider.GetEnvironmentVariable("TRAVIS").Returns("True");
 
-            var environmentService = new EnvironmentService(environmentProvider);
-            var environmentDetails = environmentService.GetEnvironmentDetails();
-            environmentDetails.Should().BeOfType<TravisEnvironmentDetails>();
+            var environmentServiceProvider = new EnvironmentServiceProvider(environmentProvider);
+            var environmentService = environmentServiceProvider.GetEnvironmentService();
+            environmentService.Should().BeOfType<TravisEnvironmentService>();
         }
 
         [Fact]
@@ -52,9 +51,9 @@ namespace BCC.Core.Tests.Services
             var environmentProvider = Substitute.For<IEnvironmentProvider>();
             environmentProvider.GetEnvironmentVariable("CIRCLECI").Returns("True");
 
-            var environmentService = new EnvironmentService(environmentProvider);
-            var environmentDetails = environmentService.GetEnvironmentDetails();
-            environmentDetails.Should().BeOfType<CircleEnvironmentDetails>();
+            var environmentServiceProvider = new EnvironmentServiceProvider(environmentProvider);
+            var environmentService = environmentServiceProvider.GetEnvironmentService();
+            environmentService.Should().BeOfType<CircleEnvironmentService>();
         }
 
         [Fact]
@@ -63,9 +62,9 @@ namespace BCC.Core.Tests.Services
             var environmentProvider = Substitute.For<IEnvironmentProvider>();
             environmentProvider.GetEnvironmentVariable("JENKINS_HOME").Returns(Faker.System.DirectoryPath());
 
-            var environmentService = new EnvironmentService(environmentProvider);
-            var environmentDetails = environmentService.GetEnvironmentDetails();
-            environmentDetails.Should().BeOfType<JenkinsEnvironmentDetails>();
+            var environmentServiceProvider = new EnvironmentServiceProvider(environmentProvider);
+            var environmentService = environmentServiceProvider.GetEnvironmentService();
+            environmentService.Should().BeOfType<JenkinsEnvironmentService>();
         }
     }
 }
