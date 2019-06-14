@@ -24,7 +24,7 @@ namespace BCC.Core.Services
             .Split(new[] { "/" }, StringSplitOptions.RemoveEmptyEntries)
             .First();
 
-        public override string BuildFolder => Environment.GetEnvironmentVariable("TRAVIS_BUILD_DIR");
+        public override string CloneRoot => Environment.GetEnvironmentVariable("TRAVIS_BUILD_DIR");
 
         public override string CommitHash => Environment.GetEnvironmentVariable("TRAVIS_COMMIT");
     }

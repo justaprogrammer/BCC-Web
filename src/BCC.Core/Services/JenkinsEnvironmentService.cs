@@ -14,7 +14,7 @@
 
         public override string GitHubOwner => null;
 
-        public override string BuildFolder => Environment.GetEnvironmentVariable("WORKSPACE");
+        public override string CloneRoot => Environment.GetEnvironmentVariable("WORKSPACE");
 
         public override string CommitHash => Environment.GetEnvironmentVariable("GIT_COMMIT");
     }

@@ -11,7 +11,7 @@
 
         public abstract string GitHubRepo { get; }
         public abstract string GitHubOwner { get; }
-        public abstract string BuildFolder { get; }
+        public abstract string CloneRoot { get; }
         public abstract string CommitHash { get; }
 
         public string BuildCrossCheckToken => Environment

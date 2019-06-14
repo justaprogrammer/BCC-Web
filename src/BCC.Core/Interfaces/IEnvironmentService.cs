@@ -4,7 +4,7 @@
     {
         string GitHubRepo { get; }
         string GitHubOwner { get; }
-        string BuildFolder { get; }
+        string CloneRoot { get; }
         string CommitHash { get; }
         string BuildCrossCheckToken { get; }
     }

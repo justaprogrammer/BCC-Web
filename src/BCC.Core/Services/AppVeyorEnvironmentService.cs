@@ -24,7 +24,7 @@ namespace BCC.Core.Services
             .Split(new[] { "/" }, StringSplitOptions.RemoveEmptyEntries)
             .First();
 
-        public override string BuildFolder => Environment
+        public override string CloneRoot => Environment
             .GetEnvironmentVariable("APPVEYOR_BUILD_FOLDER");
 
         public override string CommitHash => Environment

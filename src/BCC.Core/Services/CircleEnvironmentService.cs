@@ -14,7 +14,7 @@
 
         public override string GitHubOwner => Environment.GetEnvironmentVariable("CIRCLE_PROJECT_USERNAME");
 
-        public override string BuildFolder => Environment.GetEnvironmentVariable("CIRCLE_WORKING_DIRECTORY");
+        public override string CloneRoot => Environment.GetEnvironmentVariable("CIRCLE_WORKING_DIRECTORY");
 
         public override string CommitHash => Environment.GetEnvironmentVariable("CIRCLE_SHA1");
     }
