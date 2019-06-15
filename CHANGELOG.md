@@ -1,10 +1,8 @@
-<a name="unreleased"></a>
-## [Unreleased]
-
 
 <a name="v0.1.8"></a>
 ## [v0.1.8] - 2019-06-15
 ### Chores
+- Fixing changelog template
 - Adding chore as a changelog option
 - Don't cache the .fake directory in AppVeyor
 - Caching Fake nupkgs in appveyor
@@ -17,6 +15,7 @@
 - Adding a changelog
 
 ### Pull Requests
+- Merge pull request [#17](https://github.com/justaprogrammer/BCC-Core/issues/17) from justaprogrammer/changelog-style
 - Merge pull request [#15](https://github.com/justaprogrammer/BCC-Core/issues/15) from justaprogrammer/msbuild-logger
 - Merge pull request [#16](https://github.com/justaprogrammer/BCC-Core/issues/16) from justaprogrammer/appveyor-build-optimization
 - Merge pull request [#14](https://github.com/justaprogrammer/BCC-Core/issues/14) from justaprogrammer/build-cache
