@@ -23,7 +23,7 @@ namespace BCC.Core.Tests.Serialization
         {
             Annotations = new[]
             {
-                new Annotation("TestConsoleApp1/Program.cs", 13, 13, AnnotationLevel.Warning, "The variable 'hello' is assigned but its value is never used")
+                new Annotation("TestConsoleApp1/Program.cs", 13, 13, AnnotationLevel.Warning, BuildEventLevel.Warning, "The variable 'hello' is assigned but its value is never used")
                 {
                     Title = "CS0219: TestConsoleApp1/Program.cs(13)"
                 }
