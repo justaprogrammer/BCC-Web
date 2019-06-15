@@ -1,8 +1,28 @@
 <a name="unreleased"></a>
 ## [Unreleased]
 
+
+<a name="v0.1.8"></a>
+## [v0.1.8] - 2019-06-15
+### Chores
+- Adding chore as a changelog option
+- Don't cache the .fake directory in AppVeyor
+- Caching Fake nupkgs in appveyor
+
+### Code Refactoring
+- Using the appveyor build cache
+
 ### Features
+- Adding a property to Annotation for BuildEventLevel
 - Adding a changelog
+
+### Pull Requests
+- Merge pull request [#15](https://github.com/justaprogrammer/BCC-Core/issues/15) from justaprogrammer/msbuild-logger
+- Merge pull request [#16](https://github.com/justaprogrammer/BCC-Core/issues/16) from justaprogrammer/appveyor-build-optimization
+- Merge pull request [#14](https://github.com/justaprogrammer/BCC-Core/issues/14) from justaprogrammer/build-cache
+- Merge pull request [#12](https://github.com/justaprogrammer/BCC-Core/issues/12) from justaprogrammer/changelog
+- Merge pull request [#13](https://github.com/justaprogrammer/BCC-Core/issues/13) from justaprogrammer/build-fixes
+- Merge pull request [#10](https://github.com/justaprogrammer/BCC-Core/issues/10) from justaprogrammer/remove-fake-deploy
 
 
 <a name="v0.1.7"></a>
@@ -142,7 +162,8 @@
 - Merge pull request [#2](https://github.com/justaprogrammer/BCC-Core/issues/2) from justaprogrammer/fixes/pr-builds
 
 
-[Unreleased]: https://github.com/justaprogrammer/BCC-Core/compare/v0.1.7...HEAD
+[Unreleased]: https://github.com/justaprogrammer/BCC-Core/compare/v0.1.8...HEAD
+[v0.1.8]: https://github.com/justaprogrammer/BCC-Core/compare/v0.1.7...v0.1.8
 [v0.1.7]: https://github.com/justaprogrammer/BCC-Core/compare/v0.1.6...v0.1.7
 [v0.1.6]: https://github.com/justaprogrammer/BCC-Core/compare/v0.1.5...v0.1.6
 [v0.1.5]: https://github.com/justaprogrammer/BCC-Core/compare/v0.1.4...v0.1.5
