@@ -12,6 +12,7 @@ namespace BCC.Core.Model.CheckRunSubmission
         public string Text { get; set; }
         public CheckConclusion Conclusion { get; set; }
         public Annotation[] Annotations { get; set; }
+        public int MaxAnnotationCount { get; set; }
         public CheckRunImage[] Images { get; set; }
         public DateTimeOffset StartedAt { get; set; }
         public DateTimeOffset CompletedAt { get; set; }
@@ -20,7 +21,7 @@ namespace BCC.Core.Model.CheckRunSubmission
         {
         }
 
-        public CreateCheckRun(string name, string title, string summary, CheckConclusion conclusion, DateTimeOffset startedAt, DateTimeOffset completedAt)
+        public CreateCheckRun(string name, string title, string summary, CheckConclusion conclusion, DateTimeOffset startedAt, DateTimeOffset completedAt, int maxAnnotationCount)
         {
             Name = name ?? throw new ArgumentNullException(nameof(name));
             Title = title ?? throw new ArgumentNullException(nameof(title));
@@ -28,6 +29,7 @@ namespace BCC.Core.Model.CheckRunSubmission
             Conclusion = conclusion;
             StartedAt = startedAt;
             CompletedAt = completedAt;
+            MaxAnnotationCount = maxAnnotationCount;
         }
 
         public bool Equals(CreateCheckRun other)
@@ -41,7 +43,8 @@ namespace BCC.Core.Model.CheckRunSubmission
                     Text == other.Text &&
                     Conclusion == other.Conclusion &&
                     StartedAt == other.StartedAt &&
-                    CompletedAt == other.CompletedAt;
+                    CompletedAt == other.CompletedAt &&
+                    MaxAnnotationCount == other.MaxAnnotationCount;
 
             var c = (Annotations == null) == (other.Annotations == null) &&
                     (Annotations == null || Annotations.SequenceEqual(other.Annotations));
