@@ -19,7 +19,8 @@ namespace BCC.Core.Tests.Serialization
             "- [TestConsoleApp1/Program.cs(13)](https://github.com/justaprogrammer/TestConsoleApp1/tree/815aa7a3051cc0d0ae6c6c2c89cba125e8027d86/TestConsoleApp1/Program.cs#L13) **Warning - CS0219** The variable 'hello' is assigned but its value is never used\r\n", 
             CheckConclusion.Success, 
             DateTimeOffset.Parse("2018-12-07T08:39:22.5858425-05:00"),
-            DateTimeOffset.Parse("2018-12-07T08:39:22.6347882-05:00"))
+            DateTimeOffset.Parse("2018-12-07T08:39:22.6347882-05:00"),
+            123)
         {
             Annotations = new[]
             {

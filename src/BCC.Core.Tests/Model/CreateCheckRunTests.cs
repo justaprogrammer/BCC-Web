@@ -42,7 +42,8 @@ namespace BCC.Core.Tests.Model
                     summary: f.Random.Word(),
                     conclusion: f.Random.Enum<CheckConclusion>(),
                     startedAt: f.Date.PastOffset(2),
-                    completedAt: f.Date.PastOffset())
+                    completedAt: f.Date.PastOffset(),
+                    maxAnnotationCount: f.Random.Int(0))
                 {
                     Annotations = f.Random.Bool() ? null : FakeAnnotation.Generate(f.Random.Int(2, 10)).ToArray(),
                     Images = f.Random.Bool() ? null : FakeCheckRunImage.Generate(f.Random.Int(2, 10)).ToArray()
@@ -71,6 +72,8 @@ namespace BCC.Core.Tests.Model
                     Summary = createCheckRun.Summary,
                     Annotations = createCheckRun.Annotations?.Select(annotation => annotation).ToArray(),
                     Images = createCheckRun.Images?.Select(annotation => annotation).ToArray(),
+                    Text = createCheckRun.Text,
+                    MaxAnnotationCount = createCheckRun.MaxAnnotationCount
                 };
 
                 createCheckRun.Equals(copy).Should().BeTrue();
